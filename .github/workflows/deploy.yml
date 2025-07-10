@@ -67,3 +67,14 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/jwt-app:latest  # 최신 이미지 가져오기
             docker-compose down  # 기존 컨테이너 종료
             docker-compose up -d  # 백그라운드로 새 컨테이너 실행
+
+      # 7. Slack 알림 전송
+      - name: Notify to Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: GitHub Actions
+          SLACK_ICON_EMOJI: ':rocket:'
+          SLACK_TITLE: '✅ EC2 배포 완료'
+          SLACK_MESSAGE: 'Main 브랜치에 push됨 → EC2에 배포가 성공적으로 완료되었습니다! 🎉'
+          SLACK_COLOR: good
